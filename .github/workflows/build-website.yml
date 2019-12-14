@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@master
       with:
         fetch-depth: 1
-    - uses: jayanthkoushik/build-webpage@v5.0.0
+    - uses: jayanthkoushik/build-webpage@v5.1.0
       with:
         setupscript: sh .github/utils/setup.sh
       env:
