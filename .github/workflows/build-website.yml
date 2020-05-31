@@ -21,11 +21,7 @@ jobs:
       with:
         owner: jayanthkoushik
         repo: build-webpage
-    - name: Check if build-webpage updated
-      with:
-        LASTVER: ${{ steps.getlastver.outputs.content }}
-        CURVER: ${{ steps.getcurver.outputs.release }}
-      run: test ${INPUT_LASTVER} != ${INPUT_CURVER}
+      run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
     - uses: jayanthkoushik/build-webpage@master
       with:
         setupscript: sh .github/utils/setup.sh
