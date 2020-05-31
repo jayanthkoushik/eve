@@ -12,13 +12,7 @@ jobs:
     - uses: actions/checkout@master
       with:
         fetch-depth: 1
-    - id: getlastver
-      uses: juliangruber/read-file-action@master
-      with:
-        path: ./.github/utils/last_build_ref
-    - id: getcurver
-      run: echo '::set-output name=release::git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1'
-    - run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
+    - run: sh .github/utils/check_builder_updated.sh
   build:
     needs: check
     runs-on: ubuntu-latest
