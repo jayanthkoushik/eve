@@ -17,9 +17,7 @@ jobs:
       with:
         path: ./.github/utils/last_build_version
     - id: getcurver
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        repository: jayanthkoushik/build-webpage
+      run: git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1
     - run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
   build:
     needs: check
