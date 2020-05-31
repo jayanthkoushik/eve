@@ -19,8 +19,7 @@ jobs:
     - id: getcurver
       uses: pozetroninc/github-action-get-latest-release@master
       with:
-        owner: jayanthkoushik
-        repo: build-webpage
+        repository: jayanthkoushik/build-webpage
     - run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
   build:
     needs: check
