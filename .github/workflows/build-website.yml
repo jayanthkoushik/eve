@@ -15,9 +15,9 @@ jobs:
     - id: getlastver
       uses: juliangruber/read-file-action@master
       with:
-        path: ./.github/utils/last_build_version
+        path: ./.github/utils/last_build_ref
     - id: getcurver
-      run: git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1
+      run: echo '::set-output name=release::git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1'
     - run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
   build:
     needs: check
