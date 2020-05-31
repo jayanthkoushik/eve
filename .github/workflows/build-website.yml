@@ -6,7 +6,7 @@ on:
     - master
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -22,6 +22,13 @@ jobs:
         owner: jayanthkoushik
         repo: build-webpage
     - run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
+  build:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 1
     - uses: jayanthkoushik/build-webpage@master
       with:
         setupscript: sh .github/utils/setup.sh
