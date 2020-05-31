@@ -21,7 +21,7 @@ jobs:
       with:
         owner: jayanthkoushik
         repo: build-webpage
-      run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
+    - run: test ${{steps.getlastver.outputs.content}} != ${{steps.getcurver.outputs.release}}
     - uses: jayanthkoushik/build-webpage@master
       with:
         setupscript: sh .github/utils/setup.sh
