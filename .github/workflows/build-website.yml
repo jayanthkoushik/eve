@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       builderupdated: ${{ steps.check.outputs.updated }}
+      builderref: ${{ steps.check.outputs.curref }}
     steps:
     - uses: actions/checkout@master
       with:
@@ -24,10 +25,12 @@ jobs:
           updated=1
         fi
         echo "::set-output name=updated::${updated}"
+        echo "::set-output name=curref::${curref}"
 
   build:
     needs: checkbuilder
-    if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
+    # if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
+    if: ${{ 0 == 1 }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -38,3 +41,13 @@ jobs:
         setupscript: sh .github/utils/setup.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  tagbuild:
+    needs: checkbuilder
+    if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: tvdias/github-tagger@v0.0.1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ needs.checkbuilder.outputs.builderref }}
