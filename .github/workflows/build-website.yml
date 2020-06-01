@@ -6,15 +6,15 @@ on:
     - master
 
 jobs:
-  check:
+  checkbuilder:
     runs-on: ubuntu-latest
     outputs:
-      builderupdated: ${{ steps.checkup.outputs.updated }}
+      builderupdated: ${{ steps.check.outputs.updated }}
     steps:
     - uses: actions/checkout@master
       with:
         fetch-depth: 1
-    - id: checkup
+    - id: check
       run: |
         lastref=`cat .github/utils/last_build_ref | tr -d '[:space:]'`
         curref=`git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1`
@@ -24,10 +24,10 @@ jobs:
           updated=1
         fi
         echo "::set-output name=updated::${updated}"
-    - run: echo ${{ steps.checkup.outputs.updated }}
+
   build:
-    needs: check
-    if: ${{ needs.check.outputs.builderupdated == 1 }}
+    needs: checkbuilder
+    if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
