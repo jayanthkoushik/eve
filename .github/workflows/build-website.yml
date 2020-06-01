@@ -47,6 +47,9 @@ jobs:
     if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@gh-pages
+      with:
+        fetch-depth: 1
     - run: |
-        git tag ${{ needs.checkbuilder.outputs.builderref }} ${{ env.GITHUB_SHA }}
+        git tag ${{ needs.checkbuilder.outputs.builderref }}
         git push --tags
