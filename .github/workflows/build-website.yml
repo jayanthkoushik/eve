@@ -52,5 +52,5 @@ jobs:
         fetch-depth: 1
         ref: gh-pages
     - run: |
-        git tag ${{ needs.checkbuilder.outputs.builderref }}
+        git tag "builder:${{ needs.checkbuilder.outputs.builderref }}"
         git push --tags
