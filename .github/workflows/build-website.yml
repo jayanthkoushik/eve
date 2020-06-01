@@ -12,9 +12,13 @@ jobs:
     - uses: actions/checkout@master
       with:
         fetch-depth: 1
-    - run: sh .github/utils/check_builder_updated.sh
+    - id: checkup
+      run: sh .github/utils/check_builder_updated.sh
+    outputs:
+      builderupdated: ${{ steps.checkup.outputs.updated }}
   build:
     needs: check
+    if: needs.check.outputs.builderupdated
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
