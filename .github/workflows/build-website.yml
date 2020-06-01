@@ -25,7 +25,7 @@ jobs:
           updated=1
         fi
         echo "::set-output name=updated::${updated}"
-        echo "::set-output name=curref::${curref}"
+        echo "::set-output name=curref::$(echo $curref | cut -c-6)"
 
   build:
     needs: checkbuilder
