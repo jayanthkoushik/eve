@@ -27,7 +27,7 @@ jobs:
     - run: echo ${{ steps.checkup.outputs.updated }}
   build:
     needs: check
-    if: needs.check.outputs.builderupdated
+    if: ${{ needs.check.outputs.builderupdated == 1 }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
