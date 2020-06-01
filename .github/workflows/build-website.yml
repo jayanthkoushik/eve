@@ -48,5 +48,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-        git tag ${{ needs.checkbuilder.outputs.builderref }} ${{ GITHUB_SHA }}
+        git tag ${{ needs.checkbuilder.outputs.builderref }} ${{ env.GITHUB_SHA }}
         git push --tags
