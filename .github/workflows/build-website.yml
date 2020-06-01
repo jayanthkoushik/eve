@@ -11,8 +11,9 @@ jobs:
   checkbuilder:
     runs-on: ubuntu-latest
     outputs:
-      builderupdated: ${{ steps.check.outputs.updated }}
+      lastbuildref: ${{ steps.check.outputs.lastref }}
       builderref: ${{ steps.check.outputs.curref }}
+      builderupdated: ${{ steps.check.outputs.updated }}
     steps:
     - uses: actions/checkout@master
       with:
@@ -29,8 +30,9 @@ jobs:
         else
           updated=1
         fi
-        echo "::set-output name=updated::${updated}"
+        echo "::set-output name=lastref::${lastref}"
         echo "::set-output name=curref::${curref}"
+        echo "::set-output name=updated::${updated}"
 
   build:
     needs: checkbuilder
@@ -52,5 +54,6 @@ jobs:
       with:
         ref: gh-pages
     - run: |
+        git tag -d "builder-${{ needs.checkbuilder.outputs.lastbuildref }}" || true
         git tag "builder-${{ needs.checkbuilder.outputs.builderref }}"
-        git push --tags
+        git push --tags || true
