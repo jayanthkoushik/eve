@@ -14,16 +14,18 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        fetch-depth: 1
+        ref: gh-pages
     - id: check
       run: |
-        lastref=`cat .github/utils/last_build_ref | tr -d '[:space:]'`
+        lastref=`git describe --tags | cut -d- -f2`
         curref=`git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1 | cut -c-6`
         if [ "$lastref" = "$curref" ]; then
           updated=0
         else
           updated=1
         fi
+        echo $lastref
+        echo $curref
         echo "::set-output name=updated::${updated}"
         echo "::set-output name=curref::${curref}"
 
@@ -49,7 +51,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
       with:
-        fetch-depth: 1
         ref: gh-pages
     - run: |
         git tag "builder-${{ needs.checkbuilder.outputs.builderref }}"
