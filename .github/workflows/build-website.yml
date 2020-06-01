@@ -14,6 +14,7 @@ jobs:
         fetch-depth: 1
     - id: checkup
       run: sh .github/utils/check_builder_updated.sh
+    - run: echo ${{ steps.checkup.outputs.updated }}
     outputs:
       builderupdated: ${{ steps.checkup.outputs.updated }}
   build:
