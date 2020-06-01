@@ -18,22 +18,21 @@ jobs:
         fetch-depth: 0
     - id: check
       run: |
-        lastref=`git describe --tags | cut -d- -f2`
+        lastref=`(git describe --tags | cut -d- -f2 || echo none)`
+        echo "last builder ref: ${lastref}"
         curref=`git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1 | cut -c-6`
+        echo "current builder ref: ${curref}"
         if [ "$lastref" = "$curref" ]; then
           updated=0
         else
           updated=1
         fi
-        echo $lastref
-        echo $curref
         echo "::set-output name=updated::${updated}"
         echo "::set-output name=curref::${curref}"
 
   build:
     needs: checkbuilder
-    # if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
-    if: ${{ 0 == 1 }}
+    if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -44,8 +43,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   tagbuild:
-    needs: checkbuilder
-    if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
+    needs: [checkbuilder, build]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
