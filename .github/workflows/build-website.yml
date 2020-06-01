@@ -8,15 +8,15 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    outputs:
+      builderupdated: ${{ steps.checkup.outputs.updated }}
     steps:
     - uses: actions/checkout@master
       with:
         fetch-depth: 1
     - id: checkup
-      run: sh .github/utils/check_builder_updated.sh
-    - run: echo ${{ steps.checkup.outputs.updated }}
-    outputs:
-      builderupdated: ${{ steps.checkup.outputs.updated }}
+      run: echo '::set-output name=updated::1'
+    - run: sh .github/utils/check_builder_updated.sh
   build:
     needs: check
     if: needs.check.outputs.builderupdated
