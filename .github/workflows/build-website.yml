@@ -18,14 +18,14 @@ jobs:
     - id: check
       run: |
         lastref=`cat .github/utils/last_build_ref | tr -d '[:space:]'`
-        curref=`git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1`
+        curref=`git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1 | cut -c-6`
         if [ "$lastref" = "$curref" ]; then
           updated=0
         else
           updated=1
         fi
         echo "::set-output name=updated::${updated}"
-        echo "::set-output name=curref::$(echo $curref | cut -c-6)"
+        echo "::set-output name=curref::${curref}"
 
   build:
     needs: checkbuilder
@@ -47,7 +47,6 @@ jobs:
     if: ${{ needs.checkbuilder.outputs.builderupdated == 1 }}
     runs-on: ubuntu-latest
     steps:
-    - uses: tvdias/github-tagger@v0.0.1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ needs.checkbuilder.outputs.builderref }}
+    - run: |
+        git tag ${{ needs.checkbuilder.outputs.builderref }} ${{ GITHUB_SHA }}
+        git push --tags
