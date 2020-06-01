@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@master
       with:
         ref: gh-pages
+        fetch-depth: 0
     - id: check
       run: |
         lastref=`git describe --tags | cut -d- -f2`
@@ -36,8 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-      with:
-        fetch-depth: 1
     - uses: jayanthkoushik/build-webpage@master
       with:
         setupscript: sh .github/utils/setup.sh
