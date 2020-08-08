@@ -4,36 +4,8 @@ on:
   push:
     branches:
     - master
-  schedule:
-  - cron: '0 0 * * *'
 
 jobs:
-  checkbuilder:
-    runs-on: ubuntu-latest
-    outputs:
-      lastbuildref: ${{ steps.check.outputs.lastref }}
-      builderref: ${{ steps.check.outputs.curref }}
-      builderupdated: ${{ steps.check.outputs.updated }}
-    steps:
-    - uses: actions/checkout@master
-      with:
-        ref: gh-pages
-        fetch-depth: 0
-    - id: check
-      run: |
-        lastref=`(git describe --tags | cut -d- -f2 || echo none)`
-        echo "last builder ref: ${lastref}"
-        curref=`git ls-remote https://github.com/jayanthkoushik/build-webpage HEAD | cut -f1 | cut -c-6`
-        echo "current builder ref: ${curref}"
-        if [ "$lastref" = "$curref" ]; then
-          updated=0
-        else
-          updated=1
-        fi
-        echo "::set-output name=lastref::${lastref}"
-        echo "::set-output name=curref::${curref}"
-        echo "::set-output name=updated::${updated}"
-
   build:
     needs: checkbuilder
     if: ${{ needs.checkbuilder.outputs.builderupdated == 1 || github.event_name == 'push' }}
@@ -45,15 +17,3 @@ jobs:
         setupscript: sh .github/utils/setup.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  tagbuild:
-    needs: [checkbuilder, build]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-      with:
-        ref: gh-pages
-    - run: |
-        git tag -d "builder-${{ needs.checkbuilder.outputs.lastbuildref }}" || true
-        git tag "builder-${{ needs.checkbuilder.outputs.builderref }}"
-        git push --tags || true
