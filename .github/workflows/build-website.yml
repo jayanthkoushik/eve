@@ -7,8 +7,6 @@ on:
 
 jobs:
   build:
-    needs: checkbuilder
-    if: ${{ needs.checkbuilder.outputs.builderupdated == 1 || github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
