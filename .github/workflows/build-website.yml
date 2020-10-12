@@ -15,6 +15,6 @@ jobs:
         setupscript: |
           cp index.md /www/
           cp -r fig /www/
-          cp _includes/* /www/_includes/
+          cp references.bib /www/_includes/
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

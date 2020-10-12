@@ -32,16 +32,40 @@ abstract: Adaptive gradient methods for stochastic optimization adjust the
     Eve, outperforms Adam and other popular methods in training deep neural
     networks, like convolutional neural networks for image classification, and
     recurrent neural networks for language tasks.
-layout: default
 ---
 
-<div>
-{% include commands.md %}
-</div>
+\newcommand{\e}{\epsilon}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+\newcommand{\argmin}{\mathop{\mathrm{arg\,min}}}
+\newcommand{\argmax}{\mathop{\mathrm{arg\,max}}}
+
+\newcommand{\suml}{\sum\limits}
+\newcommand{\sumnl}{\sum\nolimits}
+
+\newcommand{\abs}[1]{\left|{#1}\right|}
+\newcommand{\norm}[1]{\left\|{#1}\right\|}
+\newcommand{\floor}[1]{\left\lfloor{#1}\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil{#1}\right\rceil}
+\newcommand{\I}[1]{\mathbb{I}(#1)}
+\newcommand{\set}[1]{\left\{#1\right\}}
+
+\renewcommand{\c}[1]{\overline{#1}}
+\renewcommand{\v}[1]{\mathbf{\mathrm{#1}}}
+\newcommand{\shat}[1]{\vphantom{#1}\smash[t]{\hat{#1}}}
+\newcommand{\ts}[1]{^\mathrm{#1}}
+
+\newcommand{\der}[2]{\frac{\mathrm{d}{#1}}{\mathrm{d}{#2}}}
+\newcommand{\pder}[2]{\frac{\partial{#1}}{\partial{#2}}}
+
+\renewcommand{\P}[2]{\mathbb{P}_{#1}\left[{#2}\right]}
+\newcommand{\E}[2]{\mathbb{E}_{#1}\left[{#2}\right]}
+\newcommand{\V}[2]{\mathbb{V}_{#1}\left[{#2}\right]}
 
 \newcommand{\wh}[1]{\widehat{#1}}
 \newcommand{\wt}[1]{\widetilde{#1}}
-\newenvironment{widefig}{\renewenvironment{figure}{\begin{figure*}[!tb]\centering}{\end{figure*}}}{}
 
 \acrodef{CNN}{Convolutional Neural Network}
 \acrodef{RNN}{Recurrent Neural Network}
@@ -49,6 +73,7 @@ layout: default
 \acrodef{SGD}{Stochastic Gradient Descent}
 \acrodef{PTB}{Penn Treebank}
 \acrodef{CIFAR 100}{CIFAR 100}
+
 
 # Introduction {#sec:intro}
 Training deep neural networks is a challenging non-convex optimization problem.
@@ -260,12 +285,8 @@ that Eve outperforms all other algorithms by a large margin. It quickly
 surpasses other methods, and achieves a much lower final loss at the end of
 training.
 
-\Begin{widefig}
-
 ![Training loss comparison. In both experiments, Eve achieves similar
   or lower loss than other optimizers.](fig/trloss){#fig:trloss}
-
-\End{widefig}
 
 ## Training RNNs {#sec:exp_rnns}
 We also compare our method with other optimizers for training \acp{RNN}. We use
@@ -306,16 +327,12 @@ decay strength. As seen in @fig:compsched(b), for different decay strengths, the
 performance of Adam can vary a lot. Eve can achieve similar or better
 performance without tuning an additional hyperparameter.
 
-\Begin{widefig}
-
 ![Results of comparing Eve with learning rate decay strategies. Plot (a) shows
   the best results for Adam with different decays. The final loss values are
   similar to that of Eve, but Eve converges faster, and does not require the
   tuning of an additional parameter. This can be an important factor as shown in
   plot (b). For suboptimal decay strengths, the performance of Adam varies a
   lot.](fig/compsched){#fig:compsched}
-
-\End{widefig}
 
 ## Effect of hyperparameters {#sec:exp_hyp}
 In this experiment, we study the behavior of Eve with respect to the two
@@ -345,12 +362,8 @@ consistently lead to good performance on a variety of tasks. We also note that
 the default hyperparameter values were not selected based on this experiment,
 but through an informal initial search using a smaller model.
 
-\Begin{widefig}
-
 ![Loss curves for training with Adam and Eve (with different choices for the
   hyperparameters).](fig/hypsearch){#fig:hypsearch}
-
-\End{widefig}
 
 
 # Conclusion and Future Work
