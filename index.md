@@ -3,35 +3,32 @@ title: "Eve: A Gradient Based Optimization Method with Locally and Globally Adap
 author:
   - name: Hiroaki Hayashi
     affiliation:
-      id: 1
-      name: Carnegie Mellon University
+    - 1
     email: hiroakih\@cs.cmu.edu
     equalcontrib: true
   - name: Jayanth Koushik
     affiliation:
-      id: 1
-      name: Carnegie Mellon University
+    - 1
     email: jkoushik\@cs.cmu.edu
     equalcontrib: true
   - name: Graham Neubig
     affiliation:
-      id: 1
-      name: Carnegie Mellon University
+    - 1
     email: gneubig\@cs.cmu.edu
 institute:
   - id: 1
     name: Carnegie Mellon University
 abstract: Adaptive gradient methods for stochastic optimization adjust the
-    learning rate for each parameter locally. However, there is also a global
-    learning rate which must be tuned in order to get the best performance. In
-    this paper, we present a new algorithm that adapts the learning rate locally
-    for each parameter separately, and also globally for all parameters
-    together. Specifically, we modify Adam, a popular method for training deep
-    learning models, with a coefficient that captures properties of the
-    objective function. Empirically, we show that our method, which we call
-    Eve, outperforms Adam and other popular methods in training deep neural
-    networks, like convolutional neural networks for image classification, and
-    recurrent neural networks for language tasks.
+  learning rate for each parameter locally. However, there is also a global
+  learning rate which must be tuned in order to get the best performance. In
+  this paper, we present a new algorithm that adapts the learning rate locally
+  for each parameter separately, and also globally for all parameters
+  together. Specifically, we modify Adam, a popular method for training deep
+  learning models, with a coefficient that captures properties of the
+  objective function. Empirically, we show that our method, which we call
+  Eve, outperforms Adam and other popular methods in training deep neural
+  networks, like convolutional neural networks for image classification, and
+  recurrent neural networks for language tasks.
 ---
 
 \newcommand{\e}{\epsilon}
@@ -76,6 +73,7 @@ abstract: Adaptive gradient methods for stochastic optimization adjust the
 
 
 # Introduction {#sec:intro}
+
 Training deep neural networks is a challenging non-convex optimization problem.
 \ac{SGD} is a simple way to move towards local optima by following the negative
 (sub)gradient. However, vanilla \ac{SGD} is slow in achieving convergence for
@@ -121,10 +119,11 @@ for training deep neural networks.
 
 
 # Related work {#sec:relwork}
+
 Our work builds on recent advancements in gradient based optimization methods
 with locally adaptive learning rates. Notable members in this family are
 Adagrad[@duchi2011adaptive], Adadelta[@zeiler2012adadelta],
-RMSProp[@tieleman2012lecture], Adam (and Adamax)[@kingma2014adam]. These methods
+RMSProp[@tieleman2012lecture], Adam/Adamax[@kingma2014adam]. These methods
 adapt the learning rate using sum of squared gradients, an estimate of the
 uncentered second moment. Some of these methods also use momentum, or running
 averages instead of the raw gradient. Being first-order methods, they are simple
@@ -157,7 +156,9 @@ learning rate.
 
 
 # Method {#sec:method}
+
 ## Preliminaries: Adam {#sec:method_prelim}
+
 Since our method builds on top of the Adam algorithm, we begin with a brief
 description of the method. First, we establish the notation: let $f(\theta)$ be
 a stochastic objective function with parameters $\theta$, and let $\theta_t$ be
@@ -189,6 +190,7 @@ $$
 $$ {#eq:theta}
 
 ## Proposed method: Eve {#sec:method_eve}
+
 Our method is motivated by simple intuitive arguments. Let $f$ denote the
 stochastic objective function that needs to be minimized. Let $f_t$ be it's
 value at iteration $t$, and let $f^\star$ be its global minimum. First, consider
@@ -238,9 +240,10 @@ $$
 \end{aligned}
 $$ {#eq:summ}
 
-![Eve algorithm. Wherever applicable, products are element-wise.](fig/alg){#fig:alg}
+![Eve algorithm. Wherever applicable, products are element-wise.](fig/alg.png){#fig:alg}
 
 ## Discussion of limitations {#sec:method_limitations}
+
 One condition of our method, which can also be construed as a limitation, is
 that it requires knowledge of the global minimum of the objective function
 $f^\star$. However, the method still remains applicable to a large class of
@@ -253,6 +256,7 @@ over other methods in optimizing complex, practical models.
 
 
 # Experiments {#sec:exp}
+
 Now we conduct experiments to compare Eve with other popular optimizers used in
 deep learning. We use the same hyperparameter settings (as described in
 @fig:alg) for all experiments. We also conduct an experiment to study the
@@ -264,6 +268,7 @@ experiments, we use cross-entropy as the loss function, and since the models
 don't have explicit regularization, $f^\star$ is set to 0 for training Eve.
 
 ## Training CNNs {#sec:exp_cnns}
+
 First we compare Eve with other optimizers for training a \ac{CNN}. The
 optimizers we compare against are Adam, Adamax, RMSprop, Adagrad, Adadelta, and
 \ac{SGD} with Nesterov momentum[@nesterov1983method] (momentum $0.9$). The
@@ -286,9 +291,10 @@ surpasses other methods, and achieves a much lower final loss at the end of
 training.
 
 ![Training loss comparison. In both experiments, Eve achieves similar
-  or lower loss than other optimizers.](fig/trloss){#fig:trloss}
+  or lower loss than other optimizers.](fig/trloss.png){#fig:trloss}
 
 ## Training RNNs {#sec:exp_rnns}
+
 We also compare our method with other optimizers for training \acp{RNN}. We use
 the same algorithms as in the previous experiment, and the learning rate search
 was conducted over the same set of values.
@@ -304,6 +310,7 @@ optimizers performed similarly on this task, with Eve achieving slightly higher
 loss than Adam and Adamax.
 
 ## Comparison with decay strategies {#sec:exp_decay}
+
 We also empirically compare Eve with three common decay policies: exponential
 ($\alpha_t = \alpha_1 \exp(-\gamma t)$), $1/t$ ($\alpha_t = \alpha_1 / (1 +
 \gamma t)$), and $1/\sqrt{t}$ ($\alpha_t = \alpha_1 / \sqrt{1 + \gamma t}$). We
@@ -332,9 +339,10 @@ performance without tuning an additional hyperparameter.
   similar to that of Eve, but Eve converges faster, and does not require the
   tuning of an additional parameter. This can be an important factor as shown in
   plot (b). For suboptimal decay strengths, the performance of Adam varies a
-  lot.](fig/compsched){#fig:compsched}
+  lot.](fig/compsched.png){#fig:compsched}
 
 ## Effect of hyperparameters {#sec:exp_hyp}
+
 In this experiment, we study the behavior of Eve with respect to the two
 hyperparameters introduced over Adam: $\beta_3$ and $c$. We use the previously
 presented ResNet model on \acs{CIFAR 100}, and a \ac{RNN} model trained for
@@ -363,10 +371,11 @@ the default hyperparameter values were not selected based on this experiment,
 but through an informal initial search using a smaller model.
 
 ![Loss curves for training with Adam and Eve (with different choices for the
-  hyperparameters).](fig/hypsearch){#fig:hypsearch}
+  hyperparameters).](fig/hypsearch.png){#fig:hypsearch}
 
 
 # Conclusion and Future Work
+
 We proposed a new algorithm, Eve, for stochastic gradient-based optimization.
 Our work builds on adaptive methods which maintain a separate learning rate for
 each parameter, and adaptively tunes the global learning rate using feedback
