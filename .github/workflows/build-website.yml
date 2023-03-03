@@ -5,6 +5,10 @@ on:
   push:
     branches:
     - master
+    paths:
+    - 'index.md'
+    - 'fig/*.png'
+    - '.github/workflows/build-website.yml'
 
 jobs:
   build:
