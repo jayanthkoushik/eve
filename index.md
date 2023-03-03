@@ -291,7 +291,7 @@ surpasses other methods, and achieves a much lower final loss at the end of
 training.
 
 ![Training loss comparison. In both experiments, Eve achieves similar
-  or lower loss than other optimizers.](fig/trloss.png){#fig:trloss}
+  or lower loss than other optimizers.](fig/trloss.png){#fig:trloss width=7in}
 
 ## Training RNNs {#sec:exp_rnns}
 
@@ -339,7 +339,7 @@ performance without tuning an additional hyperparameter.
   similar to that of Eve, but Eve converges faster, and does not require the
   tuning of an additional parameter. This can be an important factor as shown in
   plot (b). For suboptimal decay strengths, the performance of Adam varies a
-  lot.](fig/compsched.png){#fig:compsched}
+  lot.](fig/compsched.png){#fig:compsched width=7in}
 
 ## Effect of hyperparameters {#sec:exp_hyp}
 
@@ -371,7 +371,7 @@ the default hyperparameter values were not selected based on this experiment,
 but through an informal initial search using a smaller model.
 
 ![Loss curves for training with Adam and Eve (with different choices for the
-  hyperparameters).](fig/hypsearch.png){#fig:hypsearch}
+  hyperparameters).](fig/hypsearch.png){#fig:hypsearch width=7in}
 
 
 # Conclusion and Future Work
