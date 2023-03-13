@@ -4,17 +4,17 @@ author:
   - name: Hiroaki Hayashi
     affiliation:
     - 1
-    email: hiroakih\@cs.cmu.edu
+    email: hiroakih@cs.cmu.edu
     equalcontrib: true
   - name: Jayanth Koushik
     affiliation:
     - 1
-    email: jkoushik\@cs.cmu.edu
+    email: jkoushik@cs.cmu.edu
     equalcontrib: true
   - name: Graham Neubig
     affiliation:
     - 1
-    email: gneubig\@cs.cmu.edu
+    email: gneubig@cs.cmu.edu
 institute:
   - id: 1
     name: Carnegie Mellon University
