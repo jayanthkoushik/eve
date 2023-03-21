@@ -9,13 +9,14 @@ on:
     - 'index.md'
     - 'fig/*.png'
     - '.github/workflows/build-website.yml'
+    - 'references.bib'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: jayanthkoushik/paje@v3
+    - uses: jayanthkoushik/paje@v6
       with:
         setupscript: |
           cp index.md /www/

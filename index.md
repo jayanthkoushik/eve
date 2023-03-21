@@ -29,6 +29,7 @@ abstract: Adaptive gradient methods for stochastic optimization adjust the
   Eve, outperforms Adam and other popular methods in training deep neural
   networks, like convolutional neural networks for image classification, and
   recurrent neural networks for language tasks.
+bibliography: references.bib
 ---
 
 \newcommand{\e}{\epsilon}
